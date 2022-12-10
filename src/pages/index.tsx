@@ -1,11 +1,12 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+  const games = trpc.game.getAll.useQuery();
 
   return (
     <>
@@ -22,7 +23,16 @@ const Home: NextPage = () => {
           </nav>
         </div>
         <main className="p-5">
-          <h1>hoi</h1>
+          {games.data?.games.map((game) => (
+            <div key={game.uuid}>
+              <Image
+                src={`https://fen2image.chessvision.ai/${game.fen}`}
+                width={200}
+                height={200}
+                alt=""
+              />
+            </div>
+          ))}
         </main>
       </header>
     </>

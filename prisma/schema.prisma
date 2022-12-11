@@ -10,8 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Game {
+  id        String    @id @default(cuid())
+  url       String    @unique
+  result    String
+  fen       String
+  opening   String
+  learning  String
+  GameTag   GameTag[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Tag       Tag?      @relation(fields: [tagId], references: [id])
+  tagId     String?
+}
+
+model GameTag {
+  id     String @id @default(cuid())
+  game   Game   @relation(fields: [gameId], references: [id])
+  gameId String
+  tag    Tag    @relation(fields: [tagId], references: [id])
+  tagId  String
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  games     Game[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  GameTag   GameTag[]
 }

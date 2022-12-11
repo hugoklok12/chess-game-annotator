@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 import { loadGames } from "../../../utils/loadGames";
+import { prepareGameProperties } from "../../../utils/prepareGameProperties";
+import type { ChessComGame } from "../../../types/ChessComAPI";
 
 export const gameRouter = router({
   // hello: publicProcedure
@@ -16,9 +18,30 @@ export const gameRouter = router({
   load: publicProcedure.query(async ({ ctx }) => {
     const { prisma } = ctx;
 
-    const loadedGames = await loadGames();
-    const savedGames = await prisma.game.findMany();
+    const { games } = await loadGames();
+    const savedGameIds = await prisma.game.findMany({
+      select: {
+        id: true,
+      },
+    });
 
-    return data;
+    games.forEach(async (game: ChessComGame) => {
+      if (!savedGameIds.includes({ id: game.uuid })) {
+        const gameData = prepareGameProperties(game);
+        await prisma.game.create({
+          data: gameData,
+        });
+      }
+    });
+
+    // const newGames = loadedGames.games.filter((game) => {
+    //   if (!savedGameIds.includes(game.uuid)) {
+    //     return game;
+    //   } else {
+    //   }
+    // });
+    // console.log(prisma.game.findMany());
+
+    return prisma.game.findMany();
   }),
 });

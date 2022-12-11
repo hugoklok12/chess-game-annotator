@@ -11,9 +11,8 @@ datasource db {
 }
 
 model Game {
-  id        String    @id @default(cuid())
+  id        String    @id
   url       String    @unique
-  result    String
   fen       String
   opening   String
   learning  String

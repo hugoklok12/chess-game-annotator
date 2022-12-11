@@ -1,3 +1,4 @@
+import type { Game } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -6,7 +7,7 @@ import Link from "next/link";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const games = trpc.game.getAll.useQuery();
+  const { data } = trpc.game.load.useQuery();
 
   return (
     <>
@@ -25,10 +26,8 @@ const Home: NextPage = () => {
           </nav>
         </header>
         <main className="p-5">
-          {games.data?.games
-            .slice(0)
-            .reverse()
-            .map((game) => (
+          {data &&
+            data.map((game: Game) => (
               <div
                 className="flex flex-row border-b border-b-gray-400 py-5"
                 key={game.id}
@@ -43,9 +42,9 @@ const Home: NextPage = () => {
                 </Link>
 
                 <div className="flex grow flex-col items-center justify-center">
-                  <p className="text-white">{game.white.username}</p>
+                  {/* <p className="text-white">{game.white.username}</p>
                   <p className="text-white">vs</p>
-                  <p className="text-white">{game.black.username}</p>
+                  <p className="text-white">{game.black.username}</p> */}
                 </div>
                 <div className="w-2/5 border-l border-l-gray-400 p-5">
                   <p className="w-full text-white">Learnings</p>

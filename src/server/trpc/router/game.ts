@@ -34,14 +34,6 @@ export const gameRouter = router({
       }
     });
 
-    // const newGames = loadedGames.games.filter((game) => {
-    //   if (!savedGameIds.includes(game.uuid)) {
-    //     return game;
-    //   } else {
-    //   }
-    // });
-    // console.log(prisma.game.findMany());
-
     return prisma.game.findMany();
   }),
 });

@@ -1,3 +1,7 @@
+export interface ChessComGames {
+  games: ChessComGame[];
+}
+
 export interface ChessComGame {
   url: string;
   pgn: string;

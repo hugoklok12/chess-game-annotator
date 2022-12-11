@@ -1,7 +1,7 @@
-// import type { ChessComGame } from "../types/ChessComAPI";
+import type { ChessComGames } from "../types/ChessComAPI";
 import { env } from "../env/server.mjs";
 
-export const loadGames = () => {
+export const loadGames = (): Promise<ChessComGames> => {
   const loadedGames = fetch(
     `https://api.chess.com/pub/player/${env.PLAYER_USERNAME}/games/2022/12`
   ).then((res) => res.json());

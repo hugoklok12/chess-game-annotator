@@ -16,23 +16,49 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="my-20 mx-auto h-4/6 max-w-7xl rounded bg-black">
-        <header className="border-b-grey-300 border border-t p-5">
+        <header className="border-b border-b-gray-400 p-5">
           <nav className="flex w-full flex-row gap-4">
-            <Link href={"/"}>Hues &amp; Cues</Link>
-            <Link href={"/game/new"}>New game</Link>
+            <Link className="text-white" href={"/"}>
+              Chess Game Annotator
+            </Link>
           </nav>
         </header>
         <main className="p-5">
-          {games.data?.games.map((game) => (
-            <div key={game.uuid}>
-              <Image
-                src={`https://fen2image.chessvision.ai/${game.fen}`}
-                width={200}
-                height={200}
-                alt=""
-              />
-            </div>
-          ))}
+          {games.data?.games
+            .slice(0)
+            .reverse()
+            .map((game) => (
+              <div
+                className="flex flex-row border-b border-b-gray-400 py-5"
+                key={game.uuid}
+              >
+                <Link href={game.url} target="_blank">
+                  <Image
+                    src={`https://fen2image.chessvision.ai/${game.fen}`}
+                    width={200}
+                    height={200}
+                    alt=""
+                  />
+                </Link>
+
+                <div className="flex grow flex-col items-center justify-center">
+                  <p className="text-white">{game.white.username}</p>
+                  <p className="text-white">vs</p>
+                  <p className="text-white">{game.black.username}</p>
+                </div>
+                <div className="w-2/5 border-l border-l-gray-400 p-5">
+                  <p className="w-full text-white">Learnings</p>
+                  <div className="flex h-full items-center justify-center">
+                    <Link
+                      className="rounded border border-b-gray-400 p-2 text-white"
+                      href={`/game/${game.uuid}`}
+                    >
+                      Add here
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
         </main>
       </div>
     </>

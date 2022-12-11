@@ -31,7 +31,7 @@ const Home: NextPage = () => {
             .map((game) => (
               <div
                 className="flex flex-row border-b border-b-gray-400 py-5"
-                key={game.uuid}
+                key={game.id}
               >
                 <Link href={game.url} target="_blank">
                   <Image
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
                   <div className="flex h-full items-center justify-center">
                     <Link
                       className="rounded border border-b-gray-400 p-2 text-white"
-                      href={`/game/${game.uuid}`}
+                      href={`/game/${game.id}`}
                     >
                       Add here
                     </Link>

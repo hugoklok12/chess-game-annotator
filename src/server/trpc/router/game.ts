@@ -1,6 +1,6 @@
 import { z } from "zod";
-
 import { router, publicProcedure } from "../trpc";
+import { loadGames } from "../../../utils/loadGames";
 
 export const gameRouter = router({
   // hello: publicProcedure
@@ -11,9 +11,14 @@ export const gameRouter = router({
   //     };
   //   }),
   getAll: publicProcedure.query(({ ctx }) => {
-    const data = fetch(
-      "https://api.chess.com/pub/player/kaasboom/games/2022/12"
-    ).then((res) => res.json());
+    return ctx.prisma.game.findMany();
+  }),
+  load: publicProcedure.query(async ({ ctx }) => {
+    const { prisma } = ctx;
+
+    const loadedGames = await loadGames();
+    const savedGames = await prisma.game.findMany();
+
     return data;
   }),
 });

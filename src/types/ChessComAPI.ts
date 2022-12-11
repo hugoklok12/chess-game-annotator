@@ -24,7 +24,7 @@ interface Accuracies {
   black: number;
 }
 
-interface Color {
+export interface Color {
   rating: number;
   result: string;
   "@id": string;

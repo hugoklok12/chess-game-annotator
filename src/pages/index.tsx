@@ -3,8 +3,8 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-
 import { trpc } from "../utils/trpc";
+import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const { data } = trpc.game.load.useQuery();
@@ -42,9 +42,11 @@ const Home: NextPage = () => {
                 </Link>
 
                 <div className="flex grow flex-col items-center justify-center">
-                  {/* <p className="text-white">{game.white.username}</p>
+                  <p className="text-white">
+                    {env.NEXT_PUBLIC_PLAYER_USERNAME}
+                  </p>
                   <p className="text-white">vs</p>
-                  <p className="text-white">{game.black.username}</p> */}
+                  <p className="text-white">{game.opponentName}</p>
                 </div>
                 <div className="w-2/5 border-l border-l-gray-400 p-5">
                   <p className="w-full text-white">Learnings</p>

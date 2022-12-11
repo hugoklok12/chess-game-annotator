@@ -11,16 +11,18 @@ datasource db {
 }
 
 model Game {
-  id        String    @id
-  url       String    @unique
-  fen       String
-  opening   String
-  learning  String
-  GameTag   GameTag[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Tag       Tag?      @relation(fields: [tagId], references: [id])
-  tagId     String?
+  id             String    @id
+  url            String    @unique
+  fen            String
+  opening        String
+  learning       String
+  opponentName   String
+  opponentRating Int
+  GameTag        GameTag[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  Tag            Tag?      @relation(fields: [tagId], references: [id])
+  tagId          String?
 }
 
 model GameTag {

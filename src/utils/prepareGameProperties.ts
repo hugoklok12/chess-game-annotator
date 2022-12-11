@@ -1,7 +1,10 @@
 import type { Game } from "@prisma/client";
-import type { ChessComGame } from "../types/ChessComAPI";
+import type { ChessComGame, Color } from "../types/ChessComAPI";
+import { env } from "../env/client.mjs";
 
 export const prepareGameProperties = (game: ChessComGame) => {
+  const opponentsColor = getOpponentsColor(game.black);
+
   const gameProperties: Game = {
     id: game.uuid,
     url: game.url,
@@ -11,16 +14,18 @@ export const prepareGameProperties = (game: ChessComGame) => {
     createdAt: new Date(),
     updatedAt: new Date(),
     tagId: null,
+    opponentName: game[opponentsColor].username,
+    opponentRating: game[opponentsColor].rating,
   };
 
   return gameProperties;
 };
 
 const extractOpeningFromPgn = (pgn: string): string => {
-  /* We add 31 to the index of the opening string because the opening string itself
-    is 31 chars long and we want to go the end of the string 
-  */
-  const openingPos = pgn.search("https://www.chess.com/openings/") + 31;
+  const prefixLength = "https://www.chess.com/openings/".length;
+  // prefixLength is added to go the end of the string
+  const openingPos =
+    pgn.search("https://www.chess.com/openings/") + prefixLength;
   const pgnAfterOpeningPos = pgn.substring(openingPos, pgn.length);
   const openingWithDashes = pgnAfterOpeningPos.substring(
     0,
@@ -28,4 +33,8 @@ const extractOpeningFromPgn = (pgn: string): string => {
   );
   const opening = openingWithDashes.replace(/-/g, " ").split(".")[0] ?? "";
   return opening;
+};
+
+const getOpponentsColor = (black: Color): "white" | "black" => {
+  return black.username === env.NEXT_PUBLIC_PLAYER_USERNAME ? "white" : "black";
 };

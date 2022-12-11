@@ -49,15 +49,18 @@ const Home: NextPage = () => {
                   <p className="text-white">{game.opponentName}</p>
                 </div>
                 <div className="w-2/5 border-l border-l-gray-400 p-5">
-                  <p className="w-full text-white">Learnings</p>
-                  <div className="flex h-full items-center justify-center">
-                    <Link
-                      className="rounded border border-b-gray-400 p-2 text-white"
-                      href={`/game/${game.id}`}
-                    >
-                      Add here
-                    </Link>
-                  </div>
+                  {game.learning !== "" ? (
+                    <p>{game.learning}</p>
+                  ) : (
+                    <div className="flex h-full items-center justify-center">
+                      <Link
+                        className="rounded border border-b-gray-400 p-2 text-white"
+                        href={`/game/${game.id}`}
+                      >
+                        Add learning here
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

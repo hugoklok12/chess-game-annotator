@@ -3,13 +3,19 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { trpc } from "../../utils/trpc";
 
 const Game: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [learning, setLearning] = useState<string>("");
   if (!id || Array.isArray(id)) return null;
+
   const game = trpc.game.getOne.useQuery(id);
+  const tags = trpc.tag.getAll.useQuery();
+
+  setLearning(game.data?.learning || "");
 
   return (
     <>
@@ -32,6 +38,7 @@ const Game: NextPage = () => {
           <input
             type="textarea"
             className="mt-2 h-48 w-1/2 bg-black text-white"
+            value={learning}
           />
           <select className="mt-2 h-10 w-1/2 bg-black text-white">
             <option value="good">Good</option>

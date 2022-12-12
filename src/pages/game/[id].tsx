@@ -2,9 +2,14 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { trpc } from "../../utils/trpc";
 
 const Game: NextPage = () => {
-  //   const games = trpc.game.getAll.useQuery();
+  const router = useRouter();
+  const { id } = router.query;
+  if (!id || Array.isArray(id)) return null;
+  const game = trpc.game.getOne.useQuery(id);
 
   return (
     <>
@@ -22,7 +27,17 @@ const Game: NextPage = () => {
             <button className="text-white">Refresh games</button>
           </nav>
         </header>
-        <main className="p-5"></main>
+        <main className="flex flex-col p-5">
+          <p className="text-white">Add your learnings here</p>
+          <input
+            type="textarea"
+            className="mt-2 h-48 w-1/2 bg-black text-white"
+          />
+          <select className="mt-2 h-10 w-1/2 bg-black text-white">
+            <option value="good">Good</option>
+            <option value="bad">Bad</option>
+          </select>
+        </main>
       </div>
     </>
   );

@@ -15,6 +15,9 @@ export const gameRouter = router({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.game.findMany();
   }),
+  getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.prisma.game.findUnique({ where: { id: input } });
+  }),
   load: publicProcedure.query(async ({ ctx }) => {
     const { prisma } = ctx;
 

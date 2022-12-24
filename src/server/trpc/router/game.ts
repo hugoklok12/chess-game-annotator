@@ -22,7 +22,6 @@ export const gameRouter = router({
     const { prisma } = ctx;
 
     const games = await loadGames();
-    console.log(games);
 
     const savedGameIds = await prisma.game.findMany({
       select: {

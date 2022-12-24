@@ -9,13 +9,11 @@ import { trpc } from "../../utils/trpc";
 const Game: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [learning, setLearning] = useState<string>("");
-  if (!id || Array.isArray(id)) return null;
+  const game = trpc.game.getOne.useQuery(id as string);
+  const [learning, setLearning] = useState<string>(game.data?.learning || "");
 
-  const game = trpc.game.getOne.useQuery(id);
-  const tags = trpc.tag.getAll.useQuery();
-
-  setLearning(game.data?.learning || "");
+  // const tags = trpc.tag.getAll.useQuery();
+  // setLearning(game.data?.learning || "");
 
   return (
     <>

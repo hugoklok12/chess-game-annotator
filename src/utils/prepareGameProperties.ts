@@ -1,40 +1,35 @@
 import type { Game } from "@prisma/client";
-import type { ChessComGame, Color } from "../types/ChessComAPI";
+import type { LichessGame, Color } from "../types/LichessAPI";
 import { env } from "../env/client.mjs";
+import { Chess } from "chess.js";
 
-export const prepareGameProperties = (game: ChessComGame) => {
-  const opponentsColor = getOpponentsColor(game.black);
+export const prepareGameProperties = (game: LichessGame) => {
+  const opponentsColor = getOpponentsColor(game.players.black);
 
   const gameProperties: Game = {
-    id: game.uuid,
-    url: game.url,
-    fen: game.fen,
-    opening: extractOpeningFromPgn(game.pgn),
+    id: game.id,
+    url: `https://lichess.org/${game.id}`,
+    fen: getFenFromPgn(game.pgn),
+    opening: game.opening.name,
     learning: "",
     createdAt: new Date(),
     updatedAt: new Date(),
     tagId: null,
-    opponentName: game[opponentsColor].username,
-    opponentRating: game[opponentsColor].rating,
+    opponentName: game.players[opponentsColor].user.name,
+    opponentRating: game.players[opponentsColor].rating,
   };
 
   return gameProperties;
 };
 
-const extractOpeningFromPgn = (pgn: string): string => {
-  const prefixLength = "https://www.chess.com/openings/".length;
-  // prefixLength is added to go the end of the string
-  const openingPos =
-    pgn.search("https://www.chess.com/openings/") + prefixLength;
-  const pgnAfterOpeningPos = pgn.substring(openingPos, pgn.length);
-  const openingWithDashes = pgnAfterOpeningPos.substring(
-    0,
-    pgnAfterOpeningPos.indexOf('"')
-  );
-  const opening = openingWithDashes.replace(/-/g, " ").split(".")[0] ?? "";
-  return opening;
+const getOpponentsColor = (black: Color): "white" | "black" => {
+  return black.user.name === env.NEXT_PUBLIC_PLAYER_USERNAME
+    ? "white"
+    : "black";
 };
 
-const getOpponentsColor = (black: Color): "white" | "black" => {
-  return black.username === env.NEXT_PUBLIC_PLAYER_USERNAME ? "white" : "black";
+const getFenFromPgn = (pgn: string): string => {
+  const chess = new Chess();
+  chess.loadPgn(pgn);
+  return chess.fen();
 };

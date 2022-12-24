@@ -21,7 +21,6 @@ model Game {
   GameTag        GameTag[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  Tag            Tag?      @relation(fields: [tagId], references: [id])
   tagId          String?
 }
 
@@ -36,7 +35,6 @@ model GameTag {
 model Tag {
   id        String    @id @default(cuid())
   name      String    @unique
-  games     Game[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   GameTag   GameTag[]

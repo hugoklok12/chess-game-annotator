@@ -7,7 +7,7 @@ import { trpc } from "../utils/trpc";
 import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
-  const { data } = trpc.game.getAll.useQuery();
+  const { data } = trpc.game.load.useQuery();
 
   return (
     <>

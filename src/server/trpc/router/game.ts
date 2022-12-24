@@ -2,7 +2,7 @@ import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 import { loadGames } from "../../../utils/loadGames";
 import { prepareGameProperties } from "../../../utils/prepareGameProperties";
-import type { ChessComGame } from "../../../types/ChessComAPI";
+import type { LichessGame } from "../../../types/LichessAPI";
 
 export const gameRouter = router({
   // hello: publicProcedure
@@ -21,15 +21,17 @@ export const gameRouter = router({
   load: publicProcedure.query(async ({ ctx }) => {
     const { prisma } = ctx;
 
-    const { games } = await loadGames();
+    const games = await loadGames();
+    console.log(games);
+
     const savedGameIds = await prisma.game.findMany({
       select: {
         id: true,
       },
     });
 
-    games.forEach(async (game: ChessComGame) => {
-      if (!savedGameIds.includes({ id: game.uuid })) {
+    games.forEach(async (game: LichessGame) => {
+      if (!savedGameIds.includes({ id: game.id })) {
         const gameData = prepareGameProperties(game);
         await prisma.game.create({
           data: gameData,

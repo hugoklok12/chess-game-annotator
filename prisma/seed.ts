@@ -11,10 +11,14 @@ async function main() {
     "Positional",
   ];
   tags.forEach(async (tag) => {
-    return await prisma.tag.upsert({
-      where: { name: tag },
-      update: {},
+    return prisma.tag.upsert({
+      where: {
+        name: tag,
+      },
       create: {
+        name: tag,
+      },
+      update: {
         name: tag,
       },
     });

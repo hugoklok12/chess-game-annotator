@@ -12,7 +12,7 @@ const Game: NextPage = () => {
   const game = trpc.game.getOne.useQuery(id as string);
   const [learning, setLearning] = useState<string>(game.data?.learning || "");
 
-  // const tags = trpc.tag.getAll.useQuery();
+  const tags = trpc.tag.getAll.useQuery();
   // setLearning(game.data?.learning || "");
 
   return (
@@ -39,8 +39,11 @@ const Game: NextPage = () => {
             value={learning}
           />
           <select className="mt-2 h-10 w-1/2 bg-black text-white">
-            <option value="good">Good</option>
-            <option value="bad">Bad</option>
+            {tags.data?.map((tag) => (
+              <option key={tag.id} value={tag.name}>
+                {tag.name}
+              </option>
+            ))}
           </select>
         </main>
       </div>

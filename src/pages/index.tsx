@@ -29,7 +29,7 @@ const Home: NextPage = () => {
           {data &&
             data.map((game: Game) => (
               <div
-                className="flex flex-row border-b border-b-gray-400 py-5"
+                className="flex gap-2 border-b border-b-gray-400 py-5"
                 key={game.id}
               >
                 <Link href={game.url} target="_blank">
@@ -40,27 +40,28 @@ const Home: NextPage = () => {
                     alt=""
                   />
                 </Link>
-
-                <div className="flex grow flex-col items-center justify-center">
-                  <p className="text-white">
-                    {env.NEXT_PUBLIC_PLAYER_USERNAME}
-                  </p>
-                  <p className="text-white">vs</p>
-                  <p className="text-white">{game.opponentName}</p>
-                </div>
-                <div className="w-2/5 border-l border-l-gray-400 p-5">
-                  {game.learning !== "" ? (
-                    <p>{game.learning}</p>
-                  ) : (
-                    <div className="flex h-full items-center justify-center">
-                      <Link
-                        className="rounded border border-b-gray-400 p-2 text-white"
-                        href={`/game/${game.id}`}
-                      >
-                        Add learning here
-                      </Link>
-                    </div>
-                  )}
+                <div className="flex flex-col gap-y-4">
+                  <div className="flex flex-row">
+                    <p className="text-white">
+                      {env.NEXT_PUBLIC_PLAYER_USERNAME} vs {game.opponentName}
+                    </p>
+                    <span className="px-1 text-white"> &#8226; </span>
+                    <p className="text-gray-400">{game.opening}</p>
+                  </div>
+                  <div>
+                    {game.learning !== "" ? (
+                      <p>{game.learning}</p>
+                    ) : (
+                      <div className="flex grow items-center">
+                        <Link
+                          className="rounded border border-b-gray-400 p-2 text-white"
+                          href={`/game/${game.id}`}
+                        >
+                          Add learning here
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

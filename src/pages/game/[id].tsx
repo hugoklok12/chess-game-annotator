@@ -33,11 +33,11 @@ const Game: NextPage = () => {
         </header>
         <main className="flex flex-col p-5">
           <p className="text-white">Add your learnings here</p>
-          <input
+          {/* <input
             type="textarea"
             className="mt-2 h-48 w-1/2 bg-black text-white"
             value={learning}
-          />
+          /> */}
           <select className="mt-2 h-10 w-1/2 bg-black text-white">
             {tags.data?.map((tag) => (
               <option key={tag.id} value={tag.name}>
@@ -45,6 +45,12 @@ const Game: NextPage = () => {
               </option>
             ))}
           </select>
+          <button
+            type="button"
+            className="inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-3 py-2 text-sm font-medium leading-4 text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Add learning
+          </button>
         </main>
       </div>
     </>

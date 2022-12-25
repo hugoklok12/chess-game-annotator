@@ -1,5 +1,5 @@
 import type { Game } from "@prisma/client";
-import type { LichessGame, Color } from "../types/LichessAPI";
+import type { LichessGame, Color, Winner } from "../types/LichessAPI";
 import { env } from "../env/client.mjs";
 import { Chess } from "chess.js";
 
@@ -17,6 +17,10 @@ export const prepareGameProperties = (game: LichessGame) => {
     tagId: null,
     opponentName: game.players[opponentsColor].user.name,
     opponentRating: game.players[opponentsColor].rating,
+    result:
+      game.status === "draw"
+        ? "draw"
+        : getResult(game.players.black, game.winner),
   };
 
   return gameProperties;
@@ -32,4 +36,9 @@ const getFenFromPgn = (pgn: string): string => {
   const chess = new Chess();
   chess.loadPgn(pgn);
   return chess.fen();
+};
+
+const getResult = (black: Color, winner: Winner): string => {
+  const opponentsColor = getOpponentsColor(black);
+  return opponentsColor === winner ? "Loss" : "Win";
 };

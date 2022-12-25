@@ -28,6 +28,11 @@ export interface Clock {
   totalTime: number;
 }
 
+export enum Winner {
+  WHITE = "white",
+  BLACK = "black",
+}
+
 export interface LichessGame {
   id: string;
   rated: boolean;
@@ -42,4 +47,5 @@ export interface LichessGame {
   moves: string;
   pgn: string;
   clock: Clock;
+  winner: Winner;
 }

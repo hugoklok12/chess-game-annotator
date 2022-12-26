@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Game {
-  id             String    @id
+  id             String   @id
   url            String
   fen            String
   opening        String
@@ -19,23 +19,15 @@ model Game {
   result         String
   opponentName   String
   opponentRating Int
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  tags           GameTag[]
-}
-
-model GameTag {
-  id     String @id @default(cuid())
-  game   Game   @relation(fields: [gameId], references: [id])
-  gameId String
-  tag    Tag    @relation(fields: [tagId], references: [id])
-  tagId  String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  tags           Tag[]
 }
 
 model Tag {
-  id        String    @id @default(cuid())
-  name      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  games     GameTag[]
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  games     Game[]
 }

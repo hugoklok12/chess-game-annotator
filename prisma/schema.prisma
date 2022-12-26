@@ -19,10 +19,9 @@ model Game {
   result         String
   opponentName   String
   opponentRating Int
-  GameTag        GameTag[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  tagId          String?
+  tags           GameTag[]
 }
 
 model GameTag {
@@ -38,5 +37,5 @@ model Tag {
   name      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  GameTag   GameTag[]
+  games     GameTag[]
 }

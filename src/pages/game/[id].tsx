@@ -31,12 +31,10 @@ const Game: NextPage = () => {
       <Head>
         <title>Modify game</title>
       </Head>
-      <Page>
+      <Page
+        name={`Learnings for game versus ${game.data?.opponentName} (${game.data?.opponentRating})`}
+      >
         <>
-          <h1 className="mb-2 font-bold text-white">
-            Learnings for game versus {game.data?.opponentName} (
-            {game.data?.opponentRating})
-          </h1>
           <div className="flex gap-2">
             <Link href={game.data?.url || ""} target="_blank">
               <Image

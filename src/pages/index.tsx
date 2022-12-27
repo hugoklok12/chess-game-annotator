@@ -15,9 +15,8 @@ const Home: NextPage = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <Page>
+      <Page name={`${env.NEXT_PUBLIC_PLAYER_USERNAME}'s games`}>
         <>
-          <h1 className="mb-2 font-bold text-white">Your games</h1>
           <div className="divide-y">
             {data &&
               data.map((game) => (

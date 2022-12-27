@@ -40,8 +40,8 @@ const Home: NextPage = () => {
                     alt=""
                   />
                 </Link>
-                <div className="flex flex-col gap-y-4">
-                  <div className="flex flex-row">
+                <div className="flex w-full flex-col gap-y-4">
+                  <div className="flex w-full flex-row">
                     <p className="font-bold text-white">
                       {env.NEXT_PUBLIC_PLAYER_USERNAME} vs {game.opponentName} (
                       {game.opponentRating})
@@ -58,6 +58,7 @@ const Home: NextPage = () => {
                     {game.result === "Draw" && (
                       <p className="text-gray-400">{game.result}</p>
                     )}
+                    <p className="ml-auto">Tag</p>
                   </div>
                   <div>
                     {game.learning !== "" ? (

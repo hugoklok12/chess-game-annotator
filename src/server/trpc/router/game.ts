@@ -55,8 +55,6 @@ export const gameRouter = router({
         where: { id: gameId },
       });
 
-      console.log(tagIds);
-
       if (game) {
         await prisma.game.update({
           where: { id: gameId },

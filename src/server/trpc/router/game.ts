@@ -19,9 +19,12 @@ export const gameRouter = router({
       },
     });
   }),
-  // getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-  //   return ctx.prisma.game.findUnique({ where: { id: input } });
-  // }),
+  getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.prisma.game.findUnique({
+      where: { id: input },
+      include: { tags: true },
+    });
+  }),
   load: publicProcedure.query(async ({ ctx }) => {
     const { prisma } = ctx;
 
@@ -64,9 +67,7 @@ export const gameRouter = router({
           where: { id: gameId },
           data: {
             tags: {
-              connect: {
-                id: tagIds[0],
-              },
+              connect: tagIds.map((id) => ({ id })),
             },
           },
         });

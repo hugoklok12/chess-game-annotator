@@ -57,7 +57,7 @@ const Home: NextPage = () => {
                         ))}
                       </div>
                     </div>
-                    <div>{game.learning !== "" && <p>{game.learning}</p>}</div>
+                    <p className="italic text-gray-200">{game.learning}</p>
                   </div>
                 </Link>
               ))}

@@ -12,6 +12,7 @@ const Game: NextPage = () => {
   const { id } = router.query;
   const game = trpc.game.getOne.useQuery(id as string);
   const tags = trpc.tag.getAll.useQuery();
+  const utils = trpc.useContext();
 
   const initialTagIds = game.data?.tags.map((tag) => tag.id) || [];
   const [chosenTagIds, setChosenTagIds] = useState<string[]>(initialTagIds);
@@ -20,10 +21,12 @@ const Game: NextPage = () => {
   const mutation = trpc.game.updateAnnotations.useMutation();
 
   const updateAnnotations = async () => {
-    await mutation.mutate({
+    await mutation.mutateAsync({
       gameId: id as string,
       tagIds: [...chosenTagIds],
+      learning,
     });
+    utils.invalidate();
   };
 
   return (
@@ -49,32 +52,13 @@ const Game: NextPage = () => {
                 <textarea
                   rows={8}
                   cols={50}
-                  name="comment"
-                  id="comment"
                   className="w-full border border-gray-500 bg-black pl-1 text-white shadow-sm"
-                  defaultValue={""}
+                  defaultValue={game.data?.learning}
                   placeholder="Add your learnings here"
+                  onChange={(e) => setLearning(e.target.value)}
                 />
               </div>
             </div>
-
-            {/* <input
-              type="textarea"
-              className="mt-2 h-48 w-1/2 bg-black text-start text-white"
-              value={learning}
-              onChange={(e) => setLearning(e.target.value)}
-              placeholder="Add your learnings here"
-            /> */}
-            {/* <select
-            onChange={(e) => setChosenTagId(e.target.value)}
-            className="mt-2 h-10 w-1/2 bg-black text-white"
-          >
-            {tags.data?.map((tag) => (
-              <option key={tag.id} value={tag.id}>
-                {tag.name}
-              </option>
-            ))}
-          </select> */}
           </div>
           <span className="isolate inline-flex rounded-md shadow-sm">
             {tags.data?.map((tag) => (

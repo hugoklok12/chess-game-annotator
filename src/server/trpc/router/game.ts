@@ -52,11 +52,12 @@ export const gameRouter = router({
       z.object({
         gameId: z.string(),
         tagIds: z.array(z.string()),
+        learning: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const { prisma } = ctx;
-      const { gameId, tagIds } = input;
+      const { gameId, tagIds, learning } = input;
 
       const game = await prisma.game.findUnique({
         where: { id: gameId },
@@ -66,6 +67,7 @@ export const gameRouter = router({
         await prisma.game.update({
           where: { id: gameId },
           data: {
+            learning,
             tags: {
               connect: tagIds.map((id) => ({ id })),
             },

@@ -3,11 +3,11 @@ const prisma = new PrismaClient();
 
 async function main() {
   const tags: string[] = [
-    "Blunder by me",
-    "Blunder by opponent",
+    "Own blunder",
+    "Opponent blunder",
     "Endgame",
+    "Tactical",
     "Insightful",
-    "Tactics",
     "Positional",
   ];
   tags.forEach(async (tag) => {

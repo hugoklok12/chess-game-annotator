@@ -14,7 +14,6 @@ export const prepareGameProperties = (game: LichessGame) => {
     learning: "",
     createdAt: new Date(),
     updatedAt: new Date(),
-    tagId: null,
     opponentName: game.players[opponentsColor].user.name,
     opponentRating: game.players[opponentsColor].rating,
     result:

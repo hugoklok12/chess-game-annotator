@@ -15,9 +15,9 @@ export const gameRouter = router({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.game.findMany();
   }),
-  getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    return ctx.prisma.game.findUnique({ where: { id: input } });
-  }),
+  // getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+  //   return ctx.prisma.game.findUnique({ where: { id: input } });
+  // }),
   load: publicProcedure.query(async ({ ctx }) => {
     const { prisma } = ctx;
 
@@ -40,4 +40,34 @@ export const gameRouter = router({
 
     return prisma.game.findMany();
   }),
+  addOrUpdateLearnings: publicProcedure
+    .input(
+      z.object({
+        gameId: z.string(),
+        tagIds: z.array(z.string()),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { prisma } = ctx;
+      const { gameId, tagIds } = input;
+
+      const game = await prisma.game.findUnique({
+        where: { id: gameId },
+      });
+
+      console.log(tagIds);
+
+      if (game) {
+        await prisma.game.update({
+          where: { id: gameId },
+          data: {
+            tags: {
+              connect: {
+                id: tagIds[0],
+              },
+            },
+          },
+        });
+      }
+    }),
 });

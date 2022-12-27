@@ -21,7 +21,7 @@ model Game {
   opponentRating Int
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  tags           Tag[]
+  tags           Tag[] // Implicit many-to-many relation
 }
 
 model Tag {
@@ -29,5 +29,5 @@ model Tag {
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  games     Game[]
+  games     Game[] // Implicit many-to-many relation
 }

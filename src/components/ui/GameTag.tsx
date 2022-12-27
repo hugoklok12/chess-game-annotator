@@ -16,7 +16,7 @@ const GameTag = ({ name }: Props) => {
     <span
       className={`${
         tagColors[name] || ""
-      } inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0`}
+      } rounded-full px-2.5 py-0.5 text-sm font-medium`}
     >
       {name}
     </span>

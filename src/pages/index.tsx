@@ -5,8 +5,7 @@ import Link from "next/link";
 import { trpc } from "../utils/trpc";
 import { env } from "../env/client.mjs";
 import Page from "../components/layout/Page";
-import GameTag from "../components/ui/GameTag";
-import { type Tag } from "@prisma/client";
+import GameTagList from "../components/ui/GameTagList";
 
 const Home: NextPage = () => {
   const { data } = trpc.game.getAll.useQuery();
@@ -51,11 +50,7 @@ const Home: NextPage = () => {
                       {game.result === "Draw" && (
                         <p className="text-gray-400">{game.result}</p>
                       )}
-                      <div className="ml-auto flex gap-1">
-                        {game.tags.map((tag: Tag) => (
-                          <GameTag key={tag.id} name={tag.name} />
-                        ))}
-                      </div>
+                      <GameTagList tags={game.tags} />
                     </div>
                     <p className="italic text-gray-200">{game.learning}</p>
                   </div>

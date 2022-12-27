@@ -61,6 +61,7 @@ export const gameRouter = router({
 
       const game = await prisma.game.findUnique({
         where: { id: gameId },
+        include: { tags: true },
       });
 
       if (game) {
@@ -69,6 +70,7 @@ export const gameRouter = router({
           data: {
             learning,
             tags: {
+              set: [],
               connect: tagIds.map((id) => ({ id })),
             },
           },

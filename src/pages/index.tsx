@@ -6,7 +6,7 @@ import { trpc } from "../utils/trpc";
 import { env } from "../env/client.mjs";
 import Page from "../components/layout/Page";
 import GameTag from "../components/ui/GameTag";
-import { Tag } from "@prisma/client";
+import { type Tag } from "@prisma/client";
 
 const Home: NextPage = () => {
   const { data } = trpc.game.getAll.useQuery();
@@ -19,18 +19,19 @@ const Home: NextPage = () => {
         <>
           {data &&
             data.map((game) => (
-              <div
-                className="flex gap-2 border-b border-b-gray-400 py-5"
+              <Link
+                className="flex gap-2 rounded border-b border-b-gray-400 p-2 py-5 hover:bg-slate-800"
                 key={game.id}
+                href={`/game/${game.id}`}
               >
-                <Link href={game.url} target="_blank">
+                <div className="p-2">
                   <Image
                     src={`https://fen2image.chessvision.ai/${game.fen}`}
                     width={200}
                     height={200}
                     alt=""
                   />
-                </Link>
+                </div>
                 <div className="flex w-full flex-col gap-y-4">
                   <div className="flex w-full flex-row">
                     <p className="font-bold text-white">
@@ -55,23 +56,9 @@ const Home: NextPage = () => {
                       ))}
                     </div>
                   </div>
-                  <div>
-                    {game.learning !== "" ? (
-                      <p>{game.learning}</p>
-                    ) : (
-                      <div className="flex grow items-center">
-                        <Link
-                          href={`/game/${game.id}`}
-                          type="button"
-                          className="inline-flex items-center rounded-md border border-transparent bg-indigo-100 px-3 py-2 text-sm font-medium leading-4 text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                          Add learning
-                        </Link>
-                      </div>
-                    )}
-                  </div>
+                  <div>{game.learning !== "" && <p>{game.learning}</p>}</div>
                 </div>
-              </div>
+              </Link>
             ))}
         </>
       </Page>

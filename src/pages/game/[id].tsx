@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Header from "../../components/layout/Header";
+import Page from "../../components/layout/Page";
 import { trpc } from "../../utils/trpc";
 
 const Game: NextPage = () => {
@@ -27,7 +27,7 @@ const Game: NextPage = () => {
       <Head>
         <title>Modify game</title>
       </Head>
-      <Header>
+      <Page>
         <>
           <p className="text-white">Add your learnings here</p>
           {/* <input
@@ -53,7 +53,7 @@ const Game: NextPage = () => {
             Add learning
           </button>
         </>
-      </Header>
+      </Page>
     </>
   );
 };

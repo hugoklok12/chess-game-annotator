@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { trpc } from "../utils/trpc";
 import { env } from "../env/client.mjs";
-import Header from "../components/layout/Header";
+import Page from "../components/layout/Page";
 import GameTag from "../components/ui/GameTag";
 
 const Home: NextPage = () => {
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <Header>
+      <Page>
         <>
           {data &&
             data.map((game) => (
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
               </div>
             ))}
         </>
-      </Header>
+      </Page>
     </>
   );
 };

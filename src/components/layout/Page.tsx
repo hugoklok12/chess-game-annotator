@@ -4,7 +4,7 @@ interface Props {
   children: JSX.Element;
 }
 
-const Header = ({ children }: Props) => {
+const Page = ({ children }: Props) => {
   return (
     <>
       <div className="my-20 mx-auto h-4/6 max-w-7xl rounded bg-black">
@@ -22,4 +22,4 @@ const Header = ({ children }: Props) => {
   );
 };
 
-export default Header;
+export default Page;

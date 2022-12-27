@@ -1,4 +1,3 @@
-import type { Game } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -6,10 +5,10 @@ import Link from "next/link";
 import { trpc } from "../utils/trpc";
 import { env } from "../env/client.mjs";
 import Header from "../components/layout/Header";
+import GameTag from "../components/ui/GameTag";
 
 const Home: NextPage = () => {
   const { data } = trpc.game.getAll.useQuery();
-
   return (
     <>
       <Head>
@@ -18,7 +17,7 @@ const Home: NextPage = () => {
       <Header>
         <>
           {data &&
-            data.map((game: Game) => (
+            data.map((game) => (
               <div
                 className="flex gap-2 border-b border-b-gray-400 py-5"
                 key={game.id}
@@ -49,7 +48,11 @@ const Home: NextPage = () => {
                     {game.result === "Draw" && (
                       <p className="text-gray-400">{game.result}</p>
                     )}
-                    <p className="ml-auto">Tag</p>
+                    <div className="ml-auto">
+                      {game.tags.map((tag) => (
+                        <GameTag key={tag.id} name={tag.name} />
+                      ))}
+                    </div>
                   </div>
                   <div>
                     {game.learning !== "" ? (

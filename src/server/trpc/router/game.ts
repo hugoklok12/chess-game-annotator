@@ -47,7 +47,7 @@ export const gameRouter = router({
 
     return prisma.game.findMany();
   }),
-  addOrUpdateLearnings: publicProcedure
+  updateAnnotations: publicProcedure
     .input(
       z.object({
         gameId: z.string(),
